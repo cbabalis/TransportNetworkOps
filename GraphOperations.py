@@ -38,3 +38,17 @@ class GraphOperations:
         """
         # read the dictionary
         pass
+
+    def convert_csv_to_xls(self, csv_file, xls_file):
+        """ This method converts a csv file to xls.
+        :param str csv_file: the .csv file formed after the conversion.
+        :param str xls_file: the .xls file to be converted.
+        """
+        pass
+
+    def convert_xls_to_csv(self, xls_file, csv_file):
+        """ This method converts an xls file to csv.
+        :param str xls_file: the .xls file to be converted.
+        :param str csv_file: the .csv file formed after the conversion.
+        """
+        pass
