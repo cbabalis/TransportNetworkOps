@@ -9,7 +9,6 @@ def main():
     graph_ops = GraphOperations()
     # read the file and convert it to dictionary
     g = graph_ops.load_file(sys.argv[1])
-    print g
     # create the graph
     # write the results to json file
     pass
