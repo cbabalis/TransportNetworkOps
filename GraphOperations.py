@@ -6,6 +6,9 @@ call it as  follow:
 python GraphOps.py #TODO
 """
 
+from xlrd import open_workbook
+import pdb
+
 
 class GraphOperations:
     """ This class contains operations for converting files to
@@ -14,14 +17,29 @@ class GraphOperations:
     def __init__(self):
         pass
 
-    def convert_file_to_adj_list(self, a_file, has_cost=False):
+    def convert_file_to_adj_list(self, xls_file, has_cost=False):
         """ Converts a file to an adjecency list.
-        :param file a_file: is the file to be converted.
+        :param file xls_file: is the file to be converted.
         :param bool has_cost: is a boolean indicating if the graph has
             cost or not.
 
         :rtype: list
         """
+        # open and load the file
+        pdb.set_trace()
+        book = open_workbook(xls_file)
+        sheet = book.sheet_by_index(0)
+
+        # read header values into the list
+        keys = [sheet.cell(0, col_index).value
+                for col_index in xrange(sheet.ncols)]
+
+        dict_list = []
+        for row_index in xrange(1, sheet.nrows):
+            d = {keys[col_index]: sheet.cell(row_index, col_index).value
+                    for col_index in xrange(sheet.ncols)}
+            dict_list.append(d)
+        return dict_list
         # if A->B vertix has a transportation cost, then create a
         # dictionary of the form: {A:[{B:3}, {C:6}]}
         # if A->B vertix has no transportation cost, then create
