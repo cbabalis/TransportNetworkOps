@@ -50,10 +50,10 @@ class GraphOperations:
             from_node = entry[from_n]
             to_node = entry[to_n]
             cost = float(entry[cost_n])
-            self.add_edge_to_network(G_struct, from_node, to_node, cost)
+            self._add_edge_to_network(G_struct, from_node, to_node, cost)
         return G_struct
 
-    def add_edge_to_network(self, G_struct, from_node, to_node, cost):
+    def _add_edge_to_network(self, G_struct, from_node, to_node, cost):
         """ Method which adds an edge from "from_node" to "to_node"
         adding the transportation cost.
         :param str from_node: a node
