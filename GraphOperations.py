@@ -37,17 +37,35 @@ class GraphOperations:
             dict_list.append(d)
         return dict_list
 
-    def convert_dict_to_adj_list(self, a_dict, has_cost=False):
+    def convert_dict_to_adj_list(self, a_dict, from_n, to_n, cost_n):
         """ Converts a dictionary to adjacency list ready for use.
-        :param bool has_cost: is a boolean indicating if the graph has
-            cost or not.
         """
+        # G_adj_list represents the graph.
+        G_struct = {}
         # if A->B vertix has a transportation cost, then create a
         # dictionary of the form: {A:[{B:3}, {C:6}]}
         # if A->B vertix has no transportation cost, then create
         # a dictionary of the form {A:[B, C]}
-        # TODO return the list
-        pass
+        for entry in a_dict:
+            from_node = entry[from_n]
+            to_node = entry[to_n]
+            cost = float(entry[cost_n])
+            self.add_edge_to_network(G_struct, from_node, to_node, cost)
+        return G_struct
+
+    def add_edge_to_network(self, G_struct, from_node, to_node, cost):
+        """ Method which adds an edge from "from_node" to "to_node"
+        adding the transportation cost.
+        :param str from_node: a node
+        :param str to_node: a node.
+        :param float cost: the transtportation cost between the two
+            nodes.
+        """
+        # check if from_node is already in the list. If not, add it
+        # else, append to the list the new entry.
+        if from_node not in G_struct:
+            G_struct[from_node] = []
+        G_struct[from_node].append({to_node: cost})
 
     def write_adj_list_to_file(self, has_cost, output_file):
         """ Method to write an adjacency list to a .csv file.

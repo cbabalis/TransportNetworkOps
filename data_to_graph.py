@@ -9,9 +9,14 @@ def main():
     graph_ops = GraphOperations()
     # read the file and convert it to dictionary
     g = graph_ops.load_file(sys.argv[1])
+    print g[3]
     # create the graph
+    dest = 'FromNodeID,N,18,0'
+    arrival = 'ToNodeID,N,18,0'
+    a_cost = 'LinkLength,N,18,6'
+    G = graph_ops.convert_dict_to_adj_list(g, dest, arrival, a_cost)
+    print G
     # write the results to json file
-    pass
 
 
 if __name__ == '__main__':
