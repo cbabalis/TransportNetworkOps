@@ -14,8 +14,9 @@ def main():
     arrival = 'ToNodeID,N,18,0'
     a_cost = 'LinkLength,N,18,6'
     G = graph_ops.convert_dict_to_adj_list(g, dest, arrival, a_cost)
-    for g in G:
-        print g, G[g]
+    print "Now the graph as edges"
+    G = graph_ops.convert_dict_to_edges(g, dest, arrival, a_cost)
+    print G
     # write the results to json file
 
 
