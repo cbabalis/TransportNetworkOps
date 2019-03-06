@@ -53,6 +53,17 @@ class GraphOperations:
             self._add_edge_to_network(G_struct, from_node, to_node, cost)
         return G_struct
 
+    def convert_dict_to_edges(self, a_dict, from_n, to_n, cost_n):
+        """ Converts a dictionary to all edges in graph.
+        """
+        G_struct = []
+        for entry in a_dict:
+            from_node = entry[from_n]
+            to_node = entry[to_n]
+            cost = float(entry[cost_n])
+            G_struct.append((str(from_node), str(to_node), float(cost)))
+        return G_struct
+
     def _add_edge_to_network(self, G_struct, from_node, to_node, cost):
         """ Method which adds an edge from "from_node" to "to_node"
         adding the transportation cost.
