@@ -101,3 +101,10 @@ class GraphOperations:
         :param str csv_file: the .csv file formed after the conversion.
         """
         pass
+
+    def dijkstra(self, edges):
+        """ Implements dijkstra.
+        :param list edges: a list full of ('a', 'b', 'cost') tuples.
+        """
+        S = []
+        pass
