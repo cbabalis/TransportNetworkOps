@@ -107,4 +107,24 @@ class GraphOperations:
         :param list edges: a list full of ('a', 'b', 'cost') tuples.
         """
         S = []
+        # initialize vertices
+        dist, prev = self._initialize_vertices(edges)
         pass
+
+    def _initialize_vertices(self, edges):
+        """ makes distance inf and previous node null.
+        :returns: distance dictionary and previous dictionary
+        respectively.
+        """
+        dist = {}
+        prev = {}
+        for e in edges:
+            self._assign_dist_prev_values_to_dict(e[0], dist, prev)
+            self._assign_dist_prev_values_to_dict(e[1], dist, prev)
+        return dist, prev
+
+    def _assign_dist_prev_values_to_dict(self, edge, dist, prev):
+        inf = 100000000000000000
+        if edge not in dist:
+            dist[edge] = inf
+            prev[edge] = None
