@@ -109,7 +109,6 @@ class GraphOperations:
         S = []
         # initialize vertices
         dist, prev = self._initialize_vertices(edges)
-        pass
 
     def _initialize_vertices(self, edges):
         """ makes distance inf and previous node null.
