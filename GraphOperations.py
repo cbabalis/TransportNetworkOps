@@ -115,12 +115,12 @@ class GraphOperations:
         # for this vertex, run dijkstra algorithm
         self.S = dist.keys()
         flag = False
-        i = 0
         while edges:
             for edge in edges:
                 u = edge[0]
                 v = edge[1]
                 cost = edge[2]
+                # first time run only
                 if not flag:
                     dist[u] = 0
                     flag = True
@@ -128,6 +128,7 @@ class GraphOperations:
                     dist[v] = dist[u] + cost
                     prev[v] = u
                 edges.remove(edge)
+                # spare nodes of the network. no connecion on them
                 if v in self.S:
                     self.S.remove(v)
         return prev
