@@ -15,7 +15,7 @@ class GraphOperations:
     appropriate graph forms.
     """
     def __init__(self):
-        pass
+        self.S = []
 
     def load_file(self, xlsx_file):
         """ Converts a file to an adjecency list.
@@ -113,21 +113,24 @@ class GraphOperations:
         # get a vertex to start with
         #v = self._get_first_vertex(edges[0], dist) TODO remove the function if not needed
         # for this vertex, run dijkstra algorithm
-        S = dist.keys()
-        print len(dist)
-        print len(S)
+        self.S = dist.keys()
         flag = False
-        for edge in edges:
-            u = edge[0]
-            v = edge[1]
-            cost = edge[2]
-            if not flag:
-                dist[u] = 0
-                flag = True
-            if dist[v] > dist[u] + cost:
-                dist[v] = dist[u] + cost
-                prev[v] = u
-                S.remove(v)
+        i = 0
+        while edges:
+            for edge in edges:
+                u = edge[0]
+                v = edge[1]
+                cost = edge[2]
+                if not flag:
+                    dist[u] = 0
+                    flag = True
+                if dist[v] > dist[u] + cost:
+                    dist[v] = dist[u] + cost
+                    prev[v] = u
+                edges.remove(edge)
+                if v in self.S:
+                    self.S.remove(v)
+        return prev
 
     def _initialize_vertices(self, edges):
         """ makes distance inf and previous node null.
