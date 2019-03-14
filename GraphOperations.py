@@ -7,6 +7,7 @@ python GraphOps.py #TODO
 """
 
 from xlrd import open_workbook
+import pdb
 
 
 class GraphOperations:
@@ -106,21 +107,48 @@ class GraphOperations:
         """ Implements dijkstra.
         :param list edges: a list full of ('a', 'b', 'cost') tuples.
         """
-        S = []
-        # initialize vertices
+        # initialize each node to infinitive distance and no previous
+        # vertex in dijkstra.
         dist, prev = self._initialize_vertices(edges)
+        # get a vertex to start with
+        #v = self._get_first_vertex(edges[0], dist) TODO remove the function if not needed
+        # for this vertex, run dijkstra algorithm
+        S = dist.keys()
+        print len(dist)
+        print len(S)
+        flag = False
+        for edge in edges:
+            u = edge[0]
+            v = edge[1]
+            cost = edge[2]
+            if not flag:
+                dist[u] = 0
+                flag = True
+            if dist[v] > dist[u] + cost:
+                dist[v] = dist[u] + cost
+                prev[v] = u
+                S.remove(v)
 
     def _initialize_vertices(self, edges):
         """ makes distance inf and previous node null.
         :returns: distance dictionary and previous dictionary
         respectively.
         """
+        # dist and prev stand for distance and previous, respectively.
         dist = {}
         prev = {}
+        # initialize every vertex to infinitive distance and no
+        # previous vertex in dijkstra, respectively
         for e in edges:
             self._assign_dist_prev_values_to_dict(e[0], dist, prev)
             self._assign_dist_prev_values_to_dict(e[1], dist, prev)
         return dist, prev
+
+    def _get_first_vertex(self, edge, dist):
+        """ returns the first vertex."""
+        v = edge[0]
+        dist[v] = 0
+        return v
 
     def _assign_dist_prev_values_to_dict(self, edge, dist, prev):
         inf = 100000000000000000
