@@ -18,7 +18,7 @@ def main():
     print "Now the graph as edges"
     G = graph_ops.convert_dict_to_edges(g, dest, arrival, a_cost)
     print G
-    prev = graph_ops.dijkstra(G)
+    prev, dist = graph_ops.dijkstra(G)
     # write the results to json file
     print len(graph_ops.S)
     pdb.set_trace()

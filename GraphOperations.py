@@ -7,7 +7,6 @@ python GraphOps.py #TODO
 """
 
 from xlrd import open_workbook
-import pdb
 
 
 class GraphOperations:
@@ -111,7 +110,6 @@ class GraphOperations:
         # vertex in dijkstra.
         dist, prev = self._initialize_vertices(edges)
         # get a vertex to start with
-        #v = self._get_first_vertex(edges[0], dist) TODO remove the function if not needed
         # for this vertex, run dijkstra algorithm
         self.S = dist.keys()
         flag = False
@@ -131,7 +129,7 @@ class GraphOperations:
                 # spare nodes of the network. no connecion on them
                 if v in self.S:
                     self.S.remove(v)
-        return prev
+        return prev, dist
 
     def _initialize_vertices(self, edges):
         """ makes distance inf and previous node null.
@@ -147,12 +145,6 @@ class GraphOperations:
             self._assign_dist_prev_values_to_dict(e[0], dist, prev)
             self._assign_dist_prev_values_to_dict(e[1], dist, prev)
         return dist, prev
-
-    def _get_first_vertex(self, edge, dist):
-        """ returns the first vertex."""
-        v = edge[0]
-        dist[v] = 0
-        return v
 
     def _assign_dist_prev_values_to_dict(self, edge, dist, prev):
         inf = 100000000000000000
