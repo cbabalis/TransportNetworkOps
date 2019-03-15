@@ -7,6 +7,7 @@ python GraphOps.py #TODO
 """
 
 from xlrd import open_workbook
+import pdb
 
 
 class GraphOperations:
@@ -101,3 +102,23 @@ class GraphOperations:
         :param str csv_file: the .csv file formed after the conversion.
         """
         pass
+
+    def dijkstra(self, G):
+        dist = {}
+        prev = {}
+        # initialize algorithm
+        self._initialize_dijkstra(dist, prev, G)
+        return dist, prev
+
+    def _initialize_dijkstra(self, dist, prev, G):
+        for g in G:
+            self._insert_vertex_to_dict(dist, prev, g)
+            neighbors = G[g]
+            for neighbor in neighbors:
+                self._insert_vertex_to_dict(dist, prev, neighbor.keys()[0])
+
+    def _insert_vertex_to_dict(self, dist, prev, v):
+        inf = 100000000000000
+        if v not in dist:
+            dist[v] = inf
+            prev[v] = None
