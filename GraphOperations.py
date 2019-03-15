@@ -143,3 +143,12 @@ class GraphOperations:
             to_vertex = v.keys()[0]
             cost = v.values()[0]
             self._relax(from_vertex, to_vertex, cost, G, dist, prev)
+
+    def self._relax(self, from_vertex, to_vertex, cost, G, dist, prev):
+        if not G:
+            return
+        if dist[to_vertex] > dist[from_vertex] + cost:
+            dist[to_vertex] = dist[from_vertex] + cost
+            prev[to_vertex] = from_vertex
+        v_key, v_value = self._extract_edge(G, to_vertex)
+        self._start_relaxation(v_key, v_value, G, dist, prev)
