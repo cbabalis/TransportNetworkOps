@@ -108,6 +108,9 @@ class GraphOperations:
         prev = {}
         # initialize algorithm
         self._initialize_dijkstra(dist, prev, G)
+        # start from a random node (vertex)
+        v_key, v_value = self._extract_edge(G)
+        self._start_relaxation(v_key, v_value, G, dist, prev)
         return dist, prev
 
     def _initialize_dijkstra(self, dist, prev, G):
@@ -122,3 +125,21 @@ class GraphOperations:
         if v not in dist:
             dist[v] = inf
             prev[v] = None
+
+    def _extract_edge(self, G, key=None):
+        """ Method which extracts a random entry of G, or
+        a specific key, if given.
+        """
+        if not key:
+            random_entry = G.popitem()
+            return random_entry[0], random_entry[1]
+        else:
+            entry = G.pop(key)
+            return key, entry
+
+    def self._start_relaxation(self, v_key, v_value, G, dist, prev):
+        from_vertex = v_key
+        for v in v_value:
+            to_vertex = v.keys()[0]
+            cost = v.values()[0]
+            self._relax(from_vertex, to_vertex, cost, G, dist, prev)
