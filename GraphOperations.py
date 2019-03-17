@@ -134,17 +134,21 @@ class GraphOperations:
             random_entry = G.popitem()
             return random_entry[0], random_entry[1]
         else:
-            entry = G.pop(key)
-            return key, entry
+            for g in G:
+                if float(key) == g:
+                    entry = G.pop(key)
+                    return key, entry
+        print "Nothing has been found!"
+        return -1
 
-    def self._start_relaxation(self, v_key, v_value, G, dist, prev):
+    def _start_relaxation(self, v_key, v_value, G, dist, prev):
         from_vertex = v_key
         for v in v_value:
             to_vertex = v.keys()[0]
             cost = v.values()[0]
             self._relax(from_vertex, to_vertex, cost, G, dist, prev)
 
-    def self._relax(self, from_vertex, to_vertex, cost, G, dist, prev):
+    def _relax(self, from_vertex, to_vertex, cost, G, dist, prev):
         if not G:
             return
         if dist[to_vertex] > dist[from_vertex] + cost:
