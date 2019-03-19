@@ -106,19 +106,22 @@ class GraphOperations:
     def dijkstra(self, G):
         dist = {}
         prev = {}
+        v_conns = {}  # dictionary which has vertex' connections
         # initialize algorithm
-        self._initialize_dijkstra(dist, prev, G)
+        self._initialize_dijkstra(dist, prev, v_conns, G)
         # start from a random node (vertex)
         v_key, v_value = self._extract_edge(G)
         self._start_relaxation(v_key, v_value, G, dist, prev)
         return dist, prev
 
-    def _initialize_dijkstra(self, dist, prev, G):
+    def _initialize_dijkstra(self, dist, prev, v_conns, G):
         for g in G:
             self._insert_vertex_to_dict(dist, prev, g)
             neighbors = G[g]
+            v_conns[g] = []
             for neighbor in neighbors:
                 self._insert_vertex_to_dict(dist, prev, neighbor.keys()[0])
+                v_conns[g].append(neighbor.keys()[0])
 
     def _insert_vertex_to_dict(self, dist, prev, v):
         inf = 100000000000000
