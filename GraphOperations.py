@@ -106,13 +106,23 @@ class GraphOperations:
     def dijkstra(self, G):
         dist = {}
         prev = {}
-        v_conns = {}  # dictionary which has vertex' connections
+        # dictionary which has vertex' connections
+        v_conns = {}
+        # list of vertices only. Each time a node is being relaxed,
+        # the vertex is removed. useful for the while loop
+        vertices = []
         # initialize algorithm
         self._initialize_dijkstra(dist, prev, v_conns, G)
         # start from a random node (vertex)
-        v_key, v_value = self._extract_edge(G)
-        self._start_relaxation(v_key, v_value, G, dist, prev)
-        return dist, prev
+        vertices = dist.keys()
+        v, u = self._extract_edge(G)
+        dist[v] = 0
+        prev[v] = 'start'
+        pdb.set_trace()
+        self._relaxation(v, dist, prev, v_conns, vertices)
+        #v_key, v_value = self._extract_edge(G)
+        #self._start_relaxation(v_key, v_value, G, dist, prev)
+        #return dist, prev
 
     def _initialize_dijkstra(self, dist, prev, v_conns, G):
         for g in G:
@@ -143,6 +153,20 @@ class GraphOperations:
                     return key, entry
         print "Nothing has been found!"
         return -1
+
+    def _relaxation(self, dist, prev, v_conns, vertices):
+        """ Method for relaxing the edges.
+        :param dict dist: has the distance (cost) for going from
+                one vertex to another.
+        :param dict prev: has {vertex:previous} pairs.
+        :param dict v_conns: dictionary of the form {A:[C, D]}
+                (where C, D are neighbors)
+        :param list vertices: is a list of all the vertices.
+        """
+        # while vertices is not empty:
+        # take a vertex and relax it
+        # remove vertex from vertices
+        # take the next vertex
 
     def _start_relaxation(self, v_key, v_value, G, dist, prev):
         from_vertex = v_key
