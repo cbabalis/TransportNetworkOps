@@ -7,7 +7,10 @@ python GraphOps.py #TODO
 """
 
 from xlrd import open_workbook
+import random
 import pdb
+import sys
+sys.setrecursionlimit(60000)
 
 
 class GraphOperations:
@@ -16,6 +19,7 @@ class GraphOperations:
     """
     def __init__(self):
         self.S = []
+        self.counter = 0
 
     def load_file(self, xlsx_file):
         """ Converts a file to an adjecency list.
@@ -39,19 +43,21 @@ class GraphOperations:
         return dict_list
 
     def convert_dict_to_adj_list(self, a_dict, from_n, to_n, cost_n):
-        """ Converts a dictionary to adjacency list ready for use.
+        """ Converts a dictionary to adjacency list ready for using.
         """
         # G_adj_list represents the graph.
         G_struct = {}
-        # if A->B vertix has a transportation cost, then create a
+        # if A->B vertex has a transportation cost, then create a
         # dictionary of the form: {A:[{B:3}, {C:6}]}
-        # if A->B vertix has no transportation cost, then create
+        # if A->B vertex has no transportation cost, then create
         # a dictionary of the form {A:[B, C]}
         for entry in a_dict:
             from_node = entry[from_n]
             to_node = entry[to_n]
             cost = float(entry[cost_n])
             self._add_edge_to_network(G_struct, from_node, to_node, cost)
+            # also, populate the neighbor with no nodes in it
+            G_struct[to_node] = [{to_node: cost}]
         return G_struct
 
     def convert_dict_to_edges(self, a_dict, from_n, to_n, cost_n):
@@ -117,3 +123,42 @@ class GraphOperations:
                     return key, entry
         print "Nothing has been found!"
         return -1
+
+    def run_dijkstra(self, G):
+        """ Runs dijkstra algorithm. """
+        # get all nodes of the graph and initialize them.
+        self.dist = {}
+        self.prev = {}
+        self._initialize_dijkstra(G, self.dist, self.prev)
+        # pop a random node (vertex)
+        first_node = random.choice(list(G))
+        self.dist[first_node] = 0
+        # run dijkstra starting from random vertex
+        self._relax(first_node, self.dist, self.prev, G)
+        # return the distance and previous dictionaries, respectively.
+        return self.dist, self.prev
+
+    def _initialize_dijkstra(self, G, dist, prev):
+        """ method to initialize all vertices of a graph.
+        """
+        inf = 10000000000000000000
+        for v in G:
+            neighbors = G[v]
+            for neighbor in neighbors:
+                for n in neighbor:
+                    dist[n] = inf
+                    prev[n] = None
+
+    def _relax(self, vertex, dist, prev, G):
+        """ Method which relaxes a vertex as described in dijkstra
+        algorithm.
+        """
+        self.counter += 1
+        neighbors = G[vertex]
+        for neighbor in neighbors:
+            for key in neighbor:
+                print self.counter
+                if dist[key] > neighbor[key] + dist[vertex]:
+                    dist[key] = neighbor[key] + dist[vertex]
+                    prev[key] = vertex
+                self._relax(key, dist, prev, G)

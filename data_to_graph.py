@@ -16,10 +16,12 @@ def main():
     a_cost = 'LinkLength,N,18,6'
     G = graph_ops.convert_dict_to_adj_list(g, dest, arrival, a_cost)
     print "Now the graph as edges"
-    G = graph_ops.convert_dict_to_edges(g, dest, arrival, a_cost)
+    #G = graph_ops.convert_dict_to_edges(g, dest, arrival, a_cost)
     print G
     # write the results to json file
     print len(graph_ops.S)
+    pdb.set_trace()
+    dist, prev = graph_ops.run_dijkstra(G)
     pdb.set_trace()
 
 
