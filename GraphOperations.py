@@ -57,7 +57,8 @@ class GraphOperations:
             cost = float(entry[cost_n])
             self._add_edge_to_network(G_struct, from_node, to_node, cost)
             # also, populate the neighbor with no nodes in it
-            G_struct[to_node] = [{to_node: cost}]
+            if to_node not in G_struct:
+                G_struct[to_node] = [{from_node: cost}]
         return G_struct
 
     def convert_dict_to_edges(self, a_dict, from_n, to_n, cost_n):
@@ -161,4 +162,4 @@ class GraphOperations:
                 if dist[key] > neighbor[key] + dist[vertex]:
                     dist[key] = neighbor[key] + dist[vertex]
                     prev[key] = vertex
-                self._relax(key, dist, prev, G)
+                    self._relax(key, dist, prev, G)
