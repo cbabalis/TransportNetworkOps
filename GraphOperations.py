@@ -8,7 +8,6 @@ python GraphOps.py #TODO
 
 from xlrd import open_workbook
 import random
-import pdb
 import sys
 sys.setrecursionlimit(60000)
 
@@ -131,11 +130,12 @@ class GraphOperations:
         self.dist = {}
         self.prev = {}
         self._initialize_dijkstra(G, self.dist, self.prev)
-        # pop a random node (vertex)
-        first_node = random.choice(list(G))
-        self.dist[first_node] = 0
-        # run dijkstra starting from random vertex
-        self._relax(first_node, self.dist, self.prev, G)
+        while G:
+            # pop a random node (vertex)
+            first_node = random.choice(list(G))
+            self.dist[first_node] = 0
+            # run dijkstra starting from random vertex
+            self._relax(first_node, self.dist, self.prev, G)
         # return the distance and previous dictionaries, respectively.
         return self.dist, self.prev
 
@@ -155,11 +155,15 @@ class GraphOperations:
         algorithm.
         """
         self.counter += 1
-        neighbors = G[vertex]
-        for neighbor in neighbors:
-            for key in neighbor:
-                print self.counter
-                if dist[key] > neighbor[key] + dist[vertex]:
-                    dist[key] = neighbor[key] + dist[vertex]
-                    prev[key] = vertex
-                    self._relax(key, dist, prev, G)
+        if vertex in G:
+            neighbors = G[vertex]
+            for neighbor in neighbors:
+                for key in neighbor:
+                    print self.counter
+                    if dist[key] > neighbor[key] + dist[vertex]:
+                        dist[key] = neighbor[key] + dist[vertex]
+                        prev[key] = vertex
+                        self._relax(key, dist, prev, G)
+            # G[vertex] has been relaxed. remove it from struct.
+            # if it has been removed previously, just ignore it
+            del G[vertex]
